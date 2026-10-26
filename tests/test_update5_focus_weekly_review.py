@@ -71,7 +71,7 @@ def test_does_not_create_two_active_focus_sessions(client):
 def test_weekly_review_with_complete_data_returns_json(client):
     _clear_update5()
     client.post("/api/day-planner/generate", json={"date": "2026-07-20", "energy_level": "media"})
-    session = client.post("/api/focus/start", json={"title": "Projeto Routine IA", "focus_type": "project", "planned_minutes": 50}).get_json()["session"]
+    session = client.post("/api/focus/start", json={"date": "2026-07-20", "title": "Projeto Routine IA", "focus_type": "project", "planned_minutes": 50}).get_json()["session"]
     record_focus_app_sample(session["id"], "VS Code", 1800)
     record_focus_app_sample(session["id"], "Discord", 300)
     client.post("/api/focus/complete", json={"session_id": session["id"]})
