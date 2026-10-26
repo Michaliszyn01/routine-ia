@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block page_actions %}
+  <div class="segmented-control">
+    <button class="button secondary" id="review-current-period" type="button">Semana atual</button>
+    <button class="button ghost" id="review-previous-period" type="button">Semana anterior</button>
+    <button class="button ghost" id="review-last7-period" type="button">Ultimos 7 dias</button>
+    <button class="button secondary" id="review-ai-evaluate" type="button">Avaliar com Gemma</button>
+  </div>
+{% endblock %}
+
+{% block content %}
+<section class="panel weekly-review-hero">
+  <div class="panel-heading">
+    <div>
+      <h2 id="review-period-title">Revisao Semanal</h2>
+      <p id="review-message" class="muted">Carregando dados da semana...</p>
+    </div>
+    <input id="review-week" name="week_start" type="date">
+  </div>
+  <div id="review-summary" class="mini-kpis"></div>
+</section>
+
+<section class="panel ai-evaluation-card" id="review-ai-panel" hidden>
+  <div class="panel-heading">
+    <h2>Avaliacao IA</h2>
+    <span class="pill" id="review-ai-source">Gemma</span>
+  </div>
+  <div id="review-ai-result" class="ai-evaluation-result"></div>
+</section>
+
+<section class="dashboard-grid weekly-review-grid">
+  <article class="panel"><div class="panel-heading"><h2>Melhor dia</h2></div><div id="review-best-day" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Dia mais dificil</h2></div><div id="review-hard-day" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Foco da semana</h2></div><div id="review-focus" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Saude da semana</h2></div><div id="review-health" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Plano e blocos</h2></div><div id="review-plan" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Apps que tiraram foco</h2></div><div id="review-breakers" class="review-card"></div></article>
+  <article class="panel"><div class="panel-heading"><h2>Insights simples</h2></div><ul id="review-insights" class="insight-list"></ul></article>
+  <article class="panel"><div class="panel-heading"><h2>Proxima semana</h2></div><ul id="review-suggestions" class="insight-list"></ul></article>
+</section>
+
+<section class="life-grid">
+  <form id="weekly-review-form" class="panel form-panel">
+    <div class="panel-heading"><h2>Reflexao salva</h2></div>
+    <div class="question-grid">
+      <input name="week_start" id="review-week-hidden" type="hidden">
+      <label><span>O que funcionou?</span><textarea name="what_worked" rows="3"></textarea></label>
+      <label><span>O que atrapalhou?</span><textarea name="what_failed" rows="3"></textarea></label>
+      <label><span>Maior vitoria</span><textarea name="main_win" rows="3"></textarea></label>
+      <label><span>Principal obstaculo</span><textarea name="main_obstacle" rows="3"></textarea></label>
+      <label><span>Ajuste da proxima semana</span><textarea name="next_week_adjustment" rows="3"></textarea></label>
+      <label><span>Energia</span><textarea name="energy_reflection" rows="3"></textarea></label>
+      <label><span>Estado emocional</span><input name="emotional_state"></label>
+      <label><span>Disciplina 0-10</span><input name="discipline_score" type="number" min="0" max="10" value="5"></label>
+    </div>
+    <button class="button primary" type="submit">Salvar reflexao</button>
+  </form>
+  <aside class="panel review-card">
+    <div class="panel-heading"><h2>Revisao salva</h2></div>
+    <div id="review-current"></div>
+  </aside>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/weekly_review.js') }}" defer></script>{% endblock %}

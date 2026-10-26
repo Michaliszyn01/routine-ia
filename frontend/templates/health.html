@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <div class="segmented-control" aria-label="Modo da tela de saude">
+    <button class="button secondary active" id="health-simple-view" type="button">Simples</button>
+    <button class="button ghost" id="health-advanced-view" type="button">Avancado</button>
+  </div>
+{% endblock %}
+
+{% block content %}
+<section class="health-sync-layout health-data-v22">
+  <section class="panel health-sync-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Importação de saúde</h2>
+        <p class="muted">Dados sincronizados localmente pelo Health Sync.</p>
+      </div>
+      <span id="health-sync-status" class="pill">Verificando</span>
+    </div>
+
+    <article class="health-operation-card" id="health-operation-card" data-level="ok">
+      <span class="eyebrow">Diagnostico operacional</span>
+      <strong id="health-operation-title">Verificando integracao...</strong>
+      <p id="health-operation-message" class="muted">Checando worker, scheduler e pasta configurada.</p>
+      <small id="health-operation-action"></small>
+    </article>
+
+    <div class="path-list health-sync-status-list">
+      <div>
+        <span>Caminho base configurado</span>
+        <code id="health-sync-path">-</code>
+      </div>
+      <div>
+        <span>Status da pasta</span>
+        <code id="health-sync-folder-status">-</code>
+      </div>
+      <div>
+        <span>Ultima importacao</span>
+        <code id="health-sync-last-import">-</code>
+      </div>
+      <div>
+        <span>Proxima importacao</span>
+        <code id="health-sync-next-import">-</code>
+      </div>
+      <div>
+        <span>Importacao automatica</span>
+        <code id="health-sync-auto-status">-</code>
+      </div>
+      <div>
+        <span>Worker em segundo plano</span>
+        <code id="health-sync-worker-status">-</code>
+      </div>
+      <div>
+        <span>Arquivos importados</span>
+        <code id="health-sync-imported-files">-</code>
+      </div>
+      <div>
+        <span>Arquivos ignorados</span>
+        <code id="health-sync-ignored-files">-</code>
+      </div>
+      <div>
+        <span>Ultimo erro</span>
+        <code id="health-sync-last-error">-</code>
+      </div>
+    </div>
+    <p id="health-sync-message" class="alert hidden"></p>
+  </section>
+
+  <section class="health-today-grid">
+    <article class="panel health-card">
+      <span>Sono de hoje</span>
+      <strong id="health-today-sleep">-</strong>
+      <small id="health-today-sleep-detail">Ainda nao ha dados de sono importados.</small>
+    </article>
+    <article class="panel health-card">
+      <span>Passos de hoje</span>
+      <strong id="health-today-steps">-</strong>
+      <small id="health-today-steps-detail">Ainda nao ha dados de passos importados.</small>
+    </article>
+    <article class="panel health-card">
+      <span>Ultimo treino</span>
+      <strong id="health-last-workout">-</strong>
+      <small id="health-last-workout-detail">Ainda nao ha treino importado.</small>
+    </article>
+    <article class="panel health-card">
+      <span>Frequencia cardiaca media</span>
+      <strong id="health-today-hr">-</strong>
+      <small id="health-today-hr-detail">Ainda nao ha dados de frequencia cardiaca.</small>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><h2>Ultimos 7 dias</h2></div>
+    <div class="table-wrap">
+      <table class="data-table compact-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Sono total</th>
+            <th>Passos</th>
+            <th>Treino</th>
+            <th>FC media</th>
+          </tr>
+        </thead>
+        <tbody id="health-sync-week-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel health-safety-note">
+    <strong>Aviso de seguranca</strong>
+    <p>Os dados do relogio sao usados apenas como pistas de rotina e bem-estar. O Routine IA nao faz diagnostico medico.</p>
+  </section>
+
+  <section class="health-advanced-area hidden" id="health-advanced-area">
+  <section class="panel health-controls-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Importacao e configuracoes avancadas</h2>
+        <p class="muted">Use quando precisar trocar o caminho, importar agora ou investigar arquivos.</p>
+      </div>
+    </div>
+
+    <div class="health-sync-config">
+      <label>
+        <span>Alterar caminho base</span>
+        <input id="health_sync_base_path" name="health_sync_base_path" type="text" value="G:\Meu Drive">
+      </label>
+      <label>
+        <span>Intervalo automatico</span>
+        <select id="health_import_interval_hours" name="health_import_interval_hours">
+          <option value="1">1 hora</option>
+          <option value="2">2 horas</option>
+          <option value="4">4 horas</option>
+          <option value="8">8 horas</option>
+          <option value="12">12 horas</option>
+          <option value="24">24 horas</option>
+        </select>
+      </label>
+      <label class="toggle-row">
+        <input id="health_auto_import_enabled" name="health_auto_import_enabled" type="checkbox">
+        <span>Importacao automatica ativa</span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button class="button primary" type="button" id="health-import-now">Importar agora</button>
+      <button class="button secondary" type="button" id="save-health-sync-settings">Salvar caminho</button>
+      <button class="button ghost" type="button" id="open-health-sync-folder">Abrir pasta</button>
+      <button class="button ghost" type="button" id="toggle-health-auto-import">Ativar/desativar auto</button>
+    </div>
+
+    <div class="health-import-feedback" id="health-import-feedback"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><h2>Insights simples</h2></div>
+    <ul id="health-sync-insights" class="insight-list"></ul>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><h2>Logs recentes da importacao</h2></div>
+    <div class="table-wrap">
+      <table class="data-table compact-table">
+        <thead>
+          <tr>
+            <th>Arquivo</th>
+            <th>Tipo</th>
+            <th>Status</th>
+            <th>Linhas</th>
+            <th>Quando</th>
+          </tr>
+        </thead>
+        <tbody id="health-sync-log-body"></tbody>
+      </table>
+    </div>
+  </section>
+  </section>
+</section>
+
+<section class="health-layout health-advanced-area hidden">
+  <form id="health-form" class="panel form-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Registro manual legado</h2>
+        <p class="muted">Use somente quando precisar complementar os dados sincronizados.</p>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <label>
+        <span>Data</span>
+        <input id="date" name="date" type="date" required>
+      </label>
+      <label>
+        <span>Fonte</span>
+        <select id="source" name="source">
+          <option>Manual</option>
+          <option>Samsung Health</option>
+          <option>Health Sync</option>
+          <option>Health Connect</option>
+          <option>CSV</option>
+        </select>
+      </label>
+      <label>
+        <span>Sono automático</span>
+        <input id="sleep_hours_auto" name="sleep_hours_auto" type="number" min="0" max="24" step="0.25" value="0">
+      </label>
+      <label>
+        <span>Passos automáticos</span>
+        <input id="steps_auto" name="steps_auto" type="number" min="0" step="1" value="0">
+      </label>
+      <label>
+        <span>Minutos de treino</span>
+        <input id="workout_minutes_auto" name="workout_minutes_auto" type="number" min="0" step="1" value="0">
+      </label>
+      <label>
+        <span>FC média</span>
+        <input id="average_heart_rate" name="average_heart_rate" type="number" min="0" step="1" value="0">
+      </label>
+      <label>
+        <span>FC repouso</span>
+        <input id="resting_heart_rate" name="resting_heart_rate" type="number" min="0" step="1" value="0">
+      </label>
+      <label>
+        <span>Estresse médio</span>
+        <input id="stress_average" name="stress_average" type="number" min="0" step="0.1" value="0">
+      </label>
+      <label>
+        <span>Peso</span>
+        <input id="weight_kg" name="weight_kg" type="number" min="0" step="0.1" value="0">
+      </label>
+    </div>
+
+    <label>
+      <span>Observação</span>
+      <textarea id="observation" name="observation" rows="4"></textarea>
+    </label>
+
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar health data</button>
+      <button class="button ghost" type="button" id="clear-health-form">Limpar formulário</button>
+      <button class="button secondary" type="button" id="export-health-csv">Exportar CSV</button>
+      <label class="button ghost file-button" for="health-csv-file">Importar CSV</label>
+      <input id="health-csv-file" type="file" accept=".csv,text/csv" hidden>
+    </div>
+  </form>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h2>Histórico de saúde</h2>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Fonte</th>
+            <th>Sono</th>
+            <th>Passos</th>
+            <th>Treino</th>
+            <th>FC média</th>
+            <th>FC repouso</th>
+            <th>Estresse</th>
+            <th>Peso</th>
+          </tr>
+        </thead>
+        <tbody id="health-body"></tbody>
+      </table>
+    </div>
+  </section>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/health.js') }}" defer></script>
+{% endblock %}

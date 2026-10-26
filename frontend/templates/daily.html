@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block page_actions %}{% endblock %}
+
+{% block content %}
+<section class="page-intro daily-intro">
+  <h1>Registrar dia <span class="leaf-mark" aria-hidden="true"></span></h1>
+  <p>Registre seu dia com clareza e sem excesso de informação.</p>
+</section>
+
+<section class="daily-top-cards">
+  <article class="mini-stat"><span>Data</span><strong id="daily-date-card">02/07/2026</strong></article>
+  <article class="mini-stat"><span>Dia</span><strong id="daily-weekday-card">Quinta-feira</strong></article>
+  <article class="mini-stat"><span>Pontuação do dia</span><strong id="score-preview">0,0</strong></article>
+  <article class="mini-stat"><span>Último registro</span><strong>Hoje, 06:20</strong></article>
+</section>
+
+<section class="daily-layout">
+  <form id="daily-form" class="panel form-panel">
+    <div class="panel-heading">
+      <h2>A) Rotina</h2>
+      <span id="record-status" class="pill">Novo registro</span>
+    </div>
+
+    <div class="form-grid">
+      <label>
+        <span>Data</span>
+        <input id="date" name="date" type="date" required>
+      </label>
+      <label>
+        <span>Dia da semana</span>
+        <input id="weekday" name="weekday" type="text" readonly>
+      </label>
+    </div>
+
+    <div class="activity-grid">
+      <fieldset class="activity-card tone-green">
+        <label class="checkbox-row">
+          <input id="workout_done" name="workout_done" type="checkbox">
+          <span>Treino</span>
+        </label>
+        <label>
+          <span>Horas</span>
+          <input id="workout_hours" name="workout_hours" type="number" min="0" max="24" step="0.25" value="0">
+        </label>
+      </fieldset>
+
+      <fieldset class="activity-card tone-blue">
+        <label class="checkbox-row">
+          <input id="study_done" name="study_done" type="checkbox">
+          <span>Estudo</span>
+        </label>
+        <label>
+          <span>Horas</span>
+          <input id="study_hours" name="study_hours" type="number" min="0" max="24" step="0.25" value="0">
+        </label>
+      </fieldset>
+
+      <fieldset class="activity-card tone-purple">
+        <label class="checkbox-row">
+          <input id="programming_done" name="programming_done" type="checkbox">
+          <span>Programação</span>
+        </label>
+        <label>
+          <span>Horas de programação</span>
+          <input id="programming_hours" name="programming_hours" type="number" min="0" max="24" step="0.25" value="0">
+        </label>
+      </fieldset>
+
+      <fieldset class="activity-card tone-yellow">
+        <label class="checkbox-row">
+          <input id="reading_done" name="reading_done" type="checkbox">
+          <span>Leitura</span>
+        </label>
+        <label>
+          <span>Horas</span>
+          <input id="reading_hours" name="reading_hours" type="number" min="0" max="24" step="0.25" value="0">
+        </label>
+      </fieldset>
+    </div>
+
+    <div class="section-title">B) Bem-estar</div>
+    <div class="form-grid">
+      <label>
+        <span>Sono em horas</span>
+        <input id="sleep_hours" name="sleep_hours" type="number" min="0" max="24" step="0.25" value="0">
+      </label>
+      <label>
+        <span>Passos</span>
+        <input id="steps" name="steps" type="number" min="0" step="1" value="0">
+      </label>
+      <label>
+        <span>Energia</span>
+        <input id="energy" name="energy" type="range" min="1" max="5" step="1" value="3">
+        <output id="energy-output">3</output>
+      </label>
+      <label>
+        <span>Humor</span>
+        <input id="mood" name="mood" type="range" min="1" max="5" step="1" value="3">
+        <output id="mood-output">3</output>
+      </label>
+    </div>
+
+    <label>
+      <span>Observação do dia</span>
+      <textarea id="observation" name="observation" rows="5"></textarea>
+    </label>
+
+    <div class="section-title">C) Alimentação</div>
+    <div class="nutrition-check-grid">
+      <label class="toggle-row"><input id="breakfast_done" type="checkbox"><span>Café da manhã</span></label>
+      <label class="toggle-row"><input id="lunch_done" type="checkbox"><span>Almoço</span></label>
+      <label class="toggle-row"><input id="dinner_done" type="checkbox"><span>Jantar</span></label>
+      <label class="toggle-row"><input id="healthy_snack_done" type="checkbox"><span>Lanche saudável</span></label>
+      <label class="toggle-row"><input id="protein_ok" type="checkbox"><span>Proteína suficiente</span></label>
+      <label class="toggle-row"><input id="fruits_vegetables_ok" type="checkbox"><span>Frutas e verduras</span></label>
+      <label class="toggle-row"><input id="ultra_processed_control" type="checkbox"><span>Ultraprocessados controlados</span></label>
+    </div>
+    <div class="form-grid nutrition-fields">
+      <label><span>Água (L)</span><input id="water_liters" type="number" min="0" max="20" step="0.1" value="0"></label>
+      <label><span>Refeições</span><input id="meals_count" type="number" min="0" max="12" step="1" value="0"></label>
+      <label class="wide-field"><span>Observação alimentar</span><textarea id="nutrition_observation" rows="3"></textarea></label>
+    </div>
+
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar dia</button>
+      <button class="button secondary" type="button" id="save-and-close">Salvar e fechar</button>
+      <button class="button ghost" type="button" id="load-today">Abrir registro completo</button>
+      <a class="button ghost" href="{{ url_for('focus_page') }}">Abrir timer de foco</a>
+      <button class="button ghost visually-hidden" type="button" id="reset-form">Limpar</button>
+    </div>
+  </form>
+
+  <aside class="panel score-panel">
+    <span class="score-label">Pontuação diária</span>
+    <strong id="score-preview-old">0</strong>
+    <div class="score-ring" aria-hidden="true">
+      <span id="score-ring-fill"></span>
+    </div>
+  </aside>
+
+  <aside class="daily-side">
+    <article class="panel">
+      <div class="panel-heading"><h2>Sequências</h2></div>
+      <div class="sequence-grid" id="daily-streaks">
+        <div><span>Registros</span><strong>4</strong><small>melhor 4</small></div>
+        <div><span>Programação</span><strong>4</strong><small>melhor 4</small></div>
+        <div><span>Estudo</span><strong>0</strong><small>melhor 0</small></div>
+        <div><span>Treino</span><strong>0</strong><small>melhor 2</small></div>
+      </div>
+    </article>
+    <article class="panel">
+      <div class="panel-heading"><h2>Hábitos de hoje</h2></div>
+      <p class="muted">Nenhum hábito ativo.</p>
+      <a class="button ghost" href="{{ url_for('habits_page') }}">Gerenciar hábitos</a>
+    </article>
+    <article class="panel alert-card">
+      <div class="panel-heading"><h2>Alertas</h2></div>
+      <div class="alert-list-static">
+        <span>3 dias sem estudo</span>
+        <span>3 dias sem programação</span>
+      </div>
+    </article>
+    <article class="panel quick-action-card">
+      <div class="panel-heading"><h2>Foco rápido</h2></div>
+      <p class="muted">Inicie uma sessão de foco agora.</p>
+      <a class="button primary" href="{{ url_for('focus_page') }}">Iniciar foco de 25 min</a>
+    </article>
+  </aside>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/daily.js') }}" defer></script>
+{% endblock %}

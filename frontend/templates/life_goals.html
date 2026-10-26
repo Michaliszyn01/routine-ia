@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block page_actions %}<a class="button secondary" href="{{ url_for('weekly_planner_page') }}">Planejar semana</a>{% endblock %}
+{% block content %}
+<section class="life-grid">
+  <form id="life-goal-form" class="panel form-panel">
+    <div class="panel-heading"><h2 id="life-goal-form-title">Novo objetivo</h2></div>
+    <input name="id" type="hidden">
+    <label><span>Titulo</span><input name="title" required placeholder="Passar em Engenharia de Software"></label>
+    <label><span>Descricao</span><textarea name="description" rows="3"></textarea></label>
+    <div class="form-grid">
+      <label><span>Categoria</span><select name="category"><option>Estudos</option><option>Carreira</option><option>Saude</option><option>Projetos</option><option>Espiritualidade</option><option>Financeiro</option><option>Pessoal</option><option>Outro</option></select></label>
+      <label><span>Prioridade</span><select name="priority"><option value="media">media</option><option value="alta">alta</option><option value="maxima">maxima</option><option value="baixa">baixa</option></select></label>
+      <label><span>Status</span><select name="status"><option value="ativo">ativo</option><option value="pausado">pausado</option><option value="concluido">concluido</option><option value="arquivado">arquivado</option></select></label>
+      <label><span>Prazo</span><input name="target_date" type="date"></label>
+      <label><span>Area ligada</span><select name="linked_area"><option value="">Nenhuma</option><option value="estudo">estudo</option><option value="programacao">programacao</option><option value="treino">treino</option><option value="alimentacao">alimentacao</option><option value="foco">foco</option><option value="projetos">projetos</option><option value="saude">saude</option><option value="habitos">habitos</option></select></label>
+      <label><span>Progresso %</span><input name="progress_percent" type="number" min="0" max="100" value="0"></label>
+    </div>
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar objetivo</button>
+      <button class="button ghost" id="life-goal-reset" type="button">Limpar</button>
+    </div>
+  </form>
+  <div class="stack">
+    <article class="panel"><div class="panel-heading"><h2>Resumo</h2></div><div id="life-goal-summary" class="mini-kpis"></div></article>
+    <article class="panel"><div class="panel-heading"><h2>Objetivos ativos</h2></div><div id="life-goals-list" class="card-list"></div></article>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/life_goals.js') }}" defer></script>{% endblock %}

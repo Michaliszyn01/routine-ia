@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block page_actions %}<select id="evolution-period"><option value="month">Mes atual</option><option value="previous_month">Mes anterior</option><option value="last30">Ultimos 30 dias</option><option value="last90">Ultimos 90 dias</option><option value="year">Ano atual</option></select>{% endblock %}
+{% block content %}
+<section class="stack">
+  <article class="panel evolution-card"><div class="panel-heading"><h2 id="evolution-title">Evolucao</h2></div><div id="evolution-summary" class="mini-kpis"></div><p id="evolution-resume"></p></article>
+  <section class="dashboard-grid"><article class="panel"><div class="panel-heading"><h2>Horas por categoria</h2></div><div id="evolution-hours" class="card-list"></div></article><article class="panel"><div class="panel-heading"><h2>Projetos e estudos</h2></div><div id="evolution-details" class="card-list"></div></article></section>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/evolution.js') }}" defer></script>{% endblock %}

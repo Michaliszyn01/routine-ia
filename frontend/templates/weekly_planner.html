@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block page_actions %}<button class="button primary" id="generate-plan" type="button">Gerar plano</button><button class="button secondary" id="save-plan" type="button">Salvar plano</button>{% endblock %}
+{% block content %}
+<section class="panel">
+  <div class="panel-heading"><h2 id="planner-title">Plano semanal</h2><input id="planner-week" type="date"></div>
+  <div id="planner-context" class="mini-kpis"></div>
+  <div id="planner-items" class="planner-list"></div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/weekly_planner.js') }}" defer></script>{% endblock %}

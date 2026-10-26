@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="settings-layout">
+  <form id="settings-form" class="panel form-panel">
+    <div class="panel-heading">
+      <h2>Preferências locais</h2>
+      <span class="pill">Dados preservados</span>
+    </div>
+
+    <div class="form-grid">
+      <label>
+        <span>Nome do app</span>
+        <input id="app_name" name="app_name" type="text" maxlength="80" value="Routine IA">
+      </label>
+
+      <label>
+        <span>Tema</span>
+        <select id="theme" name="theme">
+          <option value="dark">Escuro</option>
+          <option value="light">Claro</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Início da semana</span>
+        <select id="week_start" name="week_start">
+          <option value="monday">Segunda-feira</option>
+        </select>
+      </label>
+
+      <label class="toggle-row">
+        <input id="auto_open_browser" name="auto_open_browser" type="checkbox">
+        <span>Abrir navegador automaticamente</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="desktop_mode" name="desktop_mode" type="checkbox">
+        <span>Modo desktop ativo</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="low_friction_mode" name="low_friction_mode" type="checkbox">
+        <span>Modo baixa friccao na tela Hoje</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="today_simplified_view" name="today_simplified_view" type="checkbox">
+        <span>Hoje simplificado por padrao</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="start_with_windows" name="start_with_windows" type="checkbox">
+        <span>Iniciar com o Windows</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="start_minimized" name="start_minimized" type="checkbox">
+        <span>Iniciar minimizado</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="run_in_background" name="run_in_background" type="checkbox">
+        <span>Continuar em segundo plano ao fechar a janela</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="background_worker_enabled" name="background_worker_enabled" type="checkbox">
+        <span>Processar dados em segundo plano</span>
+      </label>
+
+      <label class="toggle-row">
+        <input id="auto_start_monitoring" name="auto_start_monitoring" type="checkbox">
+        <span>Ativar monitoramento ao abrir</span>
+      </label>
+
+      <input id="monitoring_worker_state" name="monitoring_worker_state" type="hidden" value="off">
+
+      <label>
+        <span>Intervalo do monitoramento</span>
+        <select id="monitoring_interval_seconds" name="monitoring_interval_seconds">
+          <option value="30">30 segundos</option>
+          <option value="60">60 segundos</option>
+          <option value="120">120 segundos</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Pasta base Health Sync</span>
+        <input id="health_sync_base_path" name="health_sync_base_path" type="text" value="G:\Meu Drive">
+      </label>
+
+      <label class="toggle-row">
+        <input id="health_auto_import_enabled" name="health_auto_import_enabled" type="checkbox">
+        <span>Importar Health Sync automaticamente</span>
+      </label>
+
+      <label>
+        <span>Intervalo Health Sync</span>
+        <select id="health_import_interval_hours" name="health_import_interval_hours">
+          <option value="1">1 hora</option>
+          <option value="2">2 horas</option>
+          <option value="4">4 horas</option>
+          <option value="8">8 horas</option>
+          <option value="12">12 horas</option>
+          <option value="24">24 horas</option>
+        </select>
+      </label>
+
+      <label class="toggle-row">
+        <input id="ai_evaluation_enabled" name="ai_evaluation_enabled" type="checkbox">
+        <span>Avaliacoes IA sob demanda</span>
+      </label>
+
+      <label>
+        <span>Modelo IA local</span>
+        <input id="ai_evaluation_model" name="ai_evaluation_model" type="text" value="gemma3:4b">
+      </label>
+
+      <label>
+        <span>URL Ollama</span>
+        <input id="ai_evaluation_url" name="ai_evaluation_url" type="text" value="http://127.0.0.1:11434">
+      </label>
+
+      <label>
+        <span>Timeout IA</span>
+        <select id="ai_evaluation_timeout_seconds" name="ai_evaluation_timeout_seconds">
+          <option value="4">4 segundos</option>
+          <option value="8">8 segundos</option>
+          <option value="12">12 segundos</option>
+          <option value="20">20 segundos</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar configurações</button>
+      <button class="button secondary" id="reset-settings" type="button">Restaurar padrao</button>
+    </div>
+  </form>
+
+  <aside class="panel settings-note">
+    <div class="panel-heading">
+      <h2>Dados locais</h2>
+    </div>
+    <p>Suas preferências e registros permanecem neste computador, inclusive após atualizações.</p>
+    <ul class="check-list">
+      <li>Armazenamento privado e local.</li>
+      <li>Dados mantidos entre versões.</li>
+      <li>Backup disponível nas ferramentas.</li>
+    </ul>
+    <div class="stack">
+      <p id="startup-status" class="muted">Atalho de inicializacao ainda nao verificado.</p>
+      <button class="button ghost" id="quit-app" type="button">Encerrar Routine IA</button>
+    </div>
+  </aside>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/settings.js') }}" defer></script>
+{% endblock %}

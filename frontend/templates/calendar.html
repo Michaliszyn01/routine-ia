@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block page_actions %}{% endblock %}
+
+{% block content %}
+<section class="page-intro calendar-intro">
+  <h1>Calendário e hábitos <span class="leaf-mark" aria-hidden="true"></span></h1>
+  <p>Visualize seu mês e cuide da sua consistência com clareza.</p>
+</section>
+
+<section class="calendar-layout">
+  <article class="panel">
+    <div class="panel-heading">
+      <h2 id="calendar-title">Calendário</h2>
+      <div class="calendar-tools">
+        <input id="calendar-month" class="month-input" type="month">
+        <div class="calendar-legend">
+          <span class="legend-dot good"></span>80+
+          <span class="legend-dot medium"></span>60-79
+          <span class="legend-dot low"></span>&lt;60
+          <span class="legend-dot empty"></span>sem registro
+        </div>
+      </div>
+    </div>
+    <div class="calendar-weekdays">
+      <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span><span>Dom</span>
+    </div>
+    <div id="calendar-grid" class="calendar-grid"></div>
+  </article>
+
+  <aside class="panel">
+    <div class="panel-heading"><h2>Dia selecionado</h2></div>
+    <div id="calendar-day-detail" class="day-detail muted">Selecione um dia.</div>
+  </aside>
+</section>
+
+<section class="habits-section">
+  <h2>Hábitos <span class="leaf-mark" aria-hidden="true"></span></h2>
+  <div class="life-grid">
+    <form id="habit-form" class="panel form-panel">
+      <div class="panel-heading"><h2>Novo hábito</h2></div>
+      <label><span>Nome</span><input name="name" required placeholder="Inglês" value="Inglês"></label>
+      <label><span>Descrição</span><textarea name="description" rows="3"></textarea></label>
+      <div class="form-grid">
+        <label><span>Categoria</span><select name="category"><option>Estudos</option><option>Saúde</option><option>Espiritualidade</option><option>Organização</option><option>Programação</option><option>Casa</option><option>Social</option><option>Outro</option></select></label>
+        <label><span>Frequência</span><select name="frequency"><option value="diaria">diária</option><option value="semanal">semanal</option><option value="personalizada">personalizada</option></select></label>
+        <label><span>Meta por semana</span><input name="target_per_week" type="number" min="1" max="7" value="5"></label>
+        <label><span>Peso</span><input name="weight" type="number" min="1" max="20" value="5"></label>
+      </div>
+      <button class="button primary" type="submit">Salvar hábito</button>
+    </form>
+    <div class="stack habits-stack">
+      <article class="panel"><div class="panel-heading"><h2>Resumo</h2></div><div id="habit-summary" class="mini-kpis"></div></article>
+      <article class="panel"><div class="panel-heading"><h2>Biblioteca</h2></div><div id="habit-list" class="card-list"></div></article>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/calendar.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/habits.js') }}" defer></script>
+{% endblock %}

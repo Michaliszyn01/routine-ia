@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <div class="segmented-control" role="group" aria-label="Periodo">
+    <button class="button secondary analytics-period active" data-period="7" type="button">7 dias</button>
+    <button class="button secondary analytics-period" data-period="14" type="button">14 dias</button>
+    <button class="button secondary analytics-period" data-period="30" type="button">30 dias</button>
+  </div>
+{% endblock %}
+
+{% block content %}
+<section class="analytics-layout">
+  <section class="panel analytics-hero-panel">
+    <div class="panel-heading">
+      <div>
+        <h2>Cruzamento saude + produtividade</h2>
+        <p class="muted" id="analytics-range">Carregando periodo...</p>
+      </div>
+      <span class="pill" id="analytics-data-count">0 dias</span>
+    </div>
+    <p class="analytics-safety" id="analytics-safety">Os dados sao pistas de rotina e bem-estar. O Routine IA nao faz diagnostico medico.</p>
+  </section>
+
+  <section class="metric-grid analytics-metrics">
+    <article class="metric-card accent-cyan"><span>Sono medio</span><strong id="analytics-sleep">-</strong><small id="analytics-sleep-days">0 dias com dado</small></article>
+    <article class="metric-card accent-green"><span>Tempo produtivo</span><strong id="analytics-productive">-</strong><small>media por dia monitorado</small></article>
+    <article class="metric-card accent-red"><span>Apps de risco</span><strong id="analytics-risk">-</strong><small>media por dia monitorado</small></article>
+    <article class="metric-card accent-yellow"><span>Dias bons combinados</span><strong id="analytics-combined">-</strong><small>sono bom + treino + foco</small></article>
+  </section>
+
+  <section class="dashboard-grid analytics-grid">
+    <article class="panel">
+      <div class="panel-heading"><h2>Insights simples</h2></div>
+      <div id="analytics-insights" class="analytics-insight-list"></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><h2>Tendencias basicas</h2></div>
+      <div id="analytics-trends" class="stack"></div>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><h2>Correlacoes do periodo</h2></div>
+    <div id="analytics-correlations" class="analytics-correlation-grid"></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-heading"><h2>Resumo diario combinado</h2></div>
+    <div class="table-wrap">
+      <table class="data-table compact-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Sono</th>
+            <th>Treino</th>
+            <th>Passos</th>
+            <th>Produtivo</th>
+            <th>Risco</th>
+            <th>Score</th>
+            <th>Sinais</th>
+          </tr>
+        </thead>
+        <tbody id="analytics-daily-body"></tbody>
+      </table>
+    </div>
+  </section>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/analytics.js') }}" defer></script>
+{% endblock %}
+

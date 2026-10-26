@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <button class="button primary" id="monitor-start" type="button">Ativar monitoramento</button>
+  <button class="button secondary" id="monitor-pause" type="button">Pausar</button>
+  <button class="button secondary" id="monitor-resume" type="button">Retomar</button>
+  <button class="button ghost" id="monitor-stop" type="button">Parar</button>
+{% endblock %}
+
+{% block content %}
+<section class="panel privacy-note">
+  <div class="panel-heading">
+    <div>
+      <h2>Monitoramento do computador</h2>
+      <p>Tempo local do aplicativo em foco, com contexto das janelas abertas.</p>
+      <p id="monitor-detail" class="muted">Intervalo padrao: 60 segundos.</p>
+    </div>
+    <span id="monitor-status" class="monitor-status status-off">desligado</span>
+  </div>
+</section>
+
+<section class="metric-grid">
+  <article class="metric-card usage-card accent-cyan"><span>Total hoje</span><strong id="usage-total">0min</strong><small id="usage-apps">0 apps</small></article>
+  <article class="metric-card usage-card accent-green"><span>Projeto/Estudo</span><strong id="usage-productive">0min</strong><small>tempo positivo</small></article>
+  <article class="metric-card usage-card accent-red"><span>Risco</span><strong id="usage-risk">0min</strong><small>tempo disperso</small></article>
+  <article class="metric-card usage-card accent-yellow"><span>Pontuacao</span><strong id="usage-score">0</strong><small id="usage-result">Sem dados.</small></article>
+  <article class="metric-card usage-card accent-purple"><span>App em foco agora</span><strong id="focused-app">-</strong><small id="focused-process">tempo contabilizado</small></article>
+  <article class="metric-card usage-card accent-blue"><span>Categoria principal</span><strong id="usage-top-category">-</strong><small id="usage-top-category-time">0min</small></article>
+</section>
+
+<section class="dashboard-grid">
+  <article class="panel chart-panel"><div class="panel-heading"><h2>Tempo por app hoje</h2></div><canvas id="usage-app-chart"></canvas></article>
+  <article class="panel chart-panel"><div class="panel-heading"><h2>Tempo por categoria</h2></div><canvas id="usage-category-chart"></canvas></article>
+  <article class="panel chart-panel"><div class="panel-heading"><h2>Resumo semanal</h2></div><canvas id="usage-week-chart"></canvas></article>
+  <article class="panel">
+    <div class="panel-heading"><h2>Apps abertos agora</h2><span class="pill">contexto</span></div>
+    <div id="open-apps-list" class="card-list"></div>
+  </article>
+</section>
+
+<section class="dashboard-grid">
+  <article class="panel">
+    <div class="panel-heading">
+      <h2>Resumo de hoje</h2>
+      <button class="button secondary" id="monitor-tick" type="button">Registrar agora</button>
+    </div>
+    <div id="usage-daily-list" class="stack"></div>
+  </article>
+  <article class="panel">
+    <div class="panel-heading"><h2>Limpeza</h2></div>
+    <div class="stack">
+      <button class="button ghost" data-delete-scope="today" type="button">Apagar dados de hoje</button>
+      <button class="button ghost" data-delete-scope="last7" type="button">Apagar ultimos 7 dias</button>
+      <button class="button ghost" data-delete-scope="all" type="button">Apagar tudo</button>
+    </div>
+  </article>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/app_usage_level1.js') }}" defer></script>
+{% endblock %}

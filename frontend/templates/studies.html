@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="studies-page">
+  <header class="studies-heading">
+    <div><span class="eyebrow">Aprendizado</span><h1>Central de estudos</h1><p>Registre, acompanhe e revise o que precisa ser consolidado.</p></div>
+    <a class="button primary" href="{{ url_for('focus_page') }}?type=study">Iniciar foco de estudo</a>
+  </header>
+
+  <section id="study-summary" class="study-summary-strip" aria-label="Resumo da semana"></section>
+
+  <div class="studies-layout">
+    <main class="studies-main">
+      <section class="study-workspace">
+        <div class="section-heading"><div><span class="eyebrow">Registrar</span><h2>Nova sessao</h2></div><span class="status-chip">Rapido</span></div>
+        <form id="study-session-form" class="study-session-form">
+          <label><span>Materia</span><select name="subject"><option>Matematica</option><option>Linguagens</option><option>Humanas</option><option>Natureza</option><option>Redacao</option><option>Ingles</option><option>Programacao</option><option>Outro</option></select></label>
+          <label class="field-grow"><span>Topico</span><input name="topic" placeholder="Ex.: Funcoes do 2o grau"></label>
+          <label><span>Minutos</span><input name="duration_minutes" type="number" min="1" max="720" value="50"></label>
+          <input name="date" type="date" hidden>
+          <div class="study-session-details">
+            <label><span>Questoes</span><input name="questions_done" type="number" min="0" value="0"></label>
+            <label><span>Acertos</span><input name="correct_answers" type="number" min="0" value="0"></label>
+            <label><span>Erros</span><input name="wrong_answers" type="number" min="0" value="0"></label>
+            <label><span>Dificuldade</span><select name="difficulty"><option value="1">Muito facil</option><option value="2">Facil</option><option value="3" selected>Media</option><option value="4">Dificil</option><option value="5">Muito dificil</option></select></label>
+          </div>
+          <label class="field-full"><span>Nota</span><textarea name="note" rows="2" placeholder="O que avancou nesta sessao?"></textarea></label>
+          <div class="field-full action-row"><button class="button primary" type="submit">Salvar sessao</button></div>
+        </form>
+      </section>
+
+      <section class="study-history-surface">
+        <div class="section-heading"><div><span class="eyebrow">Historico</span><h2>Sessoes recentes</h2></div></div>
+        <div id="study-sessions" class="study-session-list"></div>
+      </section>
+    </main>
+
+    <aside class="studies-aside">
+      <section class="study-review-surface">
+        <div class="section-heading"><div><span class="eyebrow">Memoria</span><h2>Revisoes de hoje</h2></div><span id="review-count" class="count-label">0</span></div>
+        <div id="study-review-queue" class="study-review-list"></div>
+      </section>
+
+      <details class="study-form-drawer">
+        <summary><span>Registrar um erro</span><strong>+</strong></summary>
+        <form id="study-error-form">
+          <input name="date" type="date" hidden>
+          <div class="study-form-grid">
+            <label><span>Materia</span><select name="subject"><option>Matematica</option><option>Linguagens</option><option>Humanas</option><option>Natureza</option><option>Redacao</option><option>Ingles</option><option>Programacao</option><option>Outro</option></select></label>
+            <label><span>Topico</span><input name="topic" required></label>
+            <label><span>Tipo</span><select name="error_type"><option value="conteudo">Conteudo</option><option value="interpretacao">Interpretacao</option><option value="atencao">Atencao</option><option value="calculo">Calculo</option><option value="tempo">Tempo</option><option value="chute">Chute</option><option value="revisao insuficiente">Revisao insuficiente</option></select></label>
+          </div>
+          <label><span>O que aconteceu</span><textarea name="description" rows="2" required></textarea></label>
+          <label><span>Correcao</span><textarea name="correction" rows="2"></textarea></label>
+          <button class="button secondary" type="submit">Salvar e agendar revisao</button>
+        </form>
+      </details>
+
+      <details class="study-form-drawer">
+        <summary><span>Registrar simulado</span><strong>+</strong></summary>
+        <form id="mock-form">
+          <input name="date" type="date" hidden>
+          <div class="study-form-grid">
+            <label><span>Nome</span><input name="exam_name" value="Simulado"></label>
+            <label><span>Area</span><input name="area" value="Geral"></label>
+            <label><span>Nota</span><input name="score" type="number" min="0" value="0"></label>
+            <label><span>Questoes</span><input name="total_questions" type="number" min="0" value="0"></label>
+            <label><span>Acertos</span><input name="correct_answers" type="number" min="0" value="0"></label>
+            <label><span>Redacao</span><input name="essay_score" type="number" min="0" value="0"></label>
+          </div>
+          <button class="button secondary" type="submit">Salvar simulado</button>
+        </form>
+      </details>
+
+      <section class="study-errors-surface">
+        <div class="section-heading"><div><span class="eyebrow">Diagnostico</span><h2>Pontos de atencao</h2></div></div>
+        <div id="study-errors" class="study-error-list"></div>
+      </section>
+    </aside>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/studies.js') }}" defer></script>{% endblock %}

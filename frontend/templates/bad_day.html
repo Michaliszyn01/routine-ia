@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="life-grid">
+  <form id="bad-day-form" class="panel form-panel bad-day-card">
+    <div class="panel-heading"><div><h2>Rotina minima</h2><p class="muted" id="bad-day-message"></p></div><input id="bad-day-date" name="date" type="date"></div>
+    <label><span>Motivo ou contexto</span><textarea name="reason" rows="3"></textarea></label>
+    <div id="bad-day-actions" class="bad-day-actions"></div>
+    <label><span>Observacao leve</span><textarea name="note" rows="3"></textarea></label>
+    <button class="button primary" type="submit">Salvar continuidade minima</button>
+  </form>
+  <aside class="panel"><div class="panel-heading"><h2>Como usar</h2></div><p>Este modo nao compete com um dia normal. Ele protege a continuidade quando o dia esta dificil.</p><p>Marque apenas o que foi possivel e siga em frente.</p></aside>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/bad_day.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="workspace-page" id="workspace-page">
+  <header class="workspace-heading">
+    <div>
+      <span class="eyebrow" id="workspace-date">Hoje</span>
+      <h1 id="workspace-greeting">Seu dia, em ordem.</h1>
+      <p>Escolha a proxima acao, conclua e siga em frente.</p>
+    </div>
+    <div class="workspace-heading-actions">
+      <button class="button secondary" id="workspace-checkin-open" type="button">Check-in</button>
+      <a class="button primary" href="{{ url_for('focus_page') }}">Iniciar foco</a>
+    </div>
+  </header>
+
+  <section class="workspace-checkin" id="workspace-checkin" hidden>
+    <div><strong>Como esta sua energia?</strong><span>O plano se ajusta ao seu ritmo.</span></div>
+    <div class="energy-control" role="group" aria-label="Energia">
+      <button type="button" data-energy="baixa">Baixa</button>
+      <button type="button" data-energy="media">Media</button>
+      <button type="button" data-energy="alta">Alta</button>
+    </div>
+  </section>
+
+  <div class="workspace-grid">
+    <main class="workspace-main">
+      <section class="next-action-surface">
+        <div class="section-heading">
+          <div><span class="eyebrow">Agora</span><h2 id="workspace-next-title">Preparando seu proximo passo</h2></div>
+          <span class="status-chip" id="workspace-plan-mode">Plano</span>
+        </div>
+        <p id="workspace-next-detail">Carregando o contexto do dia...</p>
+        <ol class="microsteps" id="workspace-microsteps"></ol>
+        <div class="action-row">
+          <a class="button primary" id="workspace-focus-action" href="{{ url_for('focus_page') }}">Comecar</a>
+          <button class="button secondary" id="workspace-plan-generate" type="button">Gerar plano</button>
+          <button class="button ghost" id="workspace-plan-complete" type="button" hidden>Concluir</button>
+        </div>
+      </section>
+
+      <section class="workspace-section task-surface">
+        <div class="section-heading">
+          <div><span class="eyebrow">Prioridades</span><h2>Tarefas de hoje</h2></div>
+          <span class="count-label" id="workspace-task-count">0 pendentes</span>
+        </div>
+        <form class="quick-task-form" id="quick-task-form">
+          <input name="title" type="text" maxlength="180" placeholder="Adicionar uma tarefa" required>
+          <select name="area" aria-label="Area">
+            <option value="rotina">Rotina</option><option value="estudos">Estudos</option>
+            <option value="projetos">Projetos</option><option value="saude">Saude</option><option value="pessoal">Pessoal</option>
+          </select>
+          <select name="priority" aria-label="Prioridade"><option value="2">Normal</option><option value="3">Alta</option><option value="4">Critica</option><option value="1">Baixa</option></select>
+          <button class="icon-button add-task-button" type="submit" aria-label="Adicionar">+</button>
+        </form>
+        <div class="workspace-task-list" id="workspace-tasks"></div>
+      </section>
+
+      <section class="workspace-section study-surface">
+        <div class="section-heading">
+          <div><span class="eyebrow">Aprendizado</span><h2>Estudos esta semana</h2></div>
+          <a class="text-link" href="{{ url_for('studies_page') }}">Abrir estudos</a>
+        </div>
+        <div class="study-kpis">
+          <div><strong id="study-hours">0h</strong><span>estudadas</span></div>
+          <div><strong id="study-questions">0</strong><span>questoes</span></div>
+          <div><strong id="study-accuracy">0%</strong><span>acerto</span></div>
+          <div><strong id="study-reviews">0</strong><span>revisoes</span></div>
+        </div>
+        <div class="review-list" id="workspace-reviews"></div>
+      </section>
+    </main>
+
+    <aside class="workspace-aside">
+      <section class="day-pulse">
+        <div class="section-heading"><div><span class="eyebrow">Seu ritmo</span><h2>Visao do dia</h2></div></div>
+        <div class="pulse-score"><strong id="pulse-score">0</strong><span>score</span></div>
+        <dl class="pulse-metrics">
+          <div><dt>Sono</dt><dd id="pulse-sleep">-</dd></div>
+          <div><dt>Energia</dt><dd id="pulse-energy">-</dd></div>
+          <div><dt>Foco</dt><dd id="pulse-focus">0 min</dd></div>
+          <div><dt>Carga</dt><dd id="pulse-load">-</dd></div>
+        </dl>
+        <a class="button secondary full-width" href="{{ url_for('daily_page') }}">Atualizar dia</a>
+      </section>
+
+      <section class="workspace-section habit-surface">
+        <div class="section-heading"><div><span class="eyebrow">Consistencia</span><h2>Habitos</h2></div><a class="text-link" href="{{ url_for('habits_page') }}">Gerenciar</a></div>
+        <div id="workspace-habits" class="workspace-habit-list"></div>
+      </section>
+
+      <section class="workspace-section quick-links-surface">
+        <div class="section-heading"><div><span class="eyebrow">Atalhos</span><h2>Organizar</h2></div></div>
+        <div class="quick-link-grid">
+          <a href="{{ url_for('weekly_planner_page') }}"><svg class="ri-icon"><use href="#ri-clipboard-list"></use></svg><span>Planejar</span></a>
+          <a href="{{ url_for('projects_page') }}"><svg class="ri-icon"><use href="#ri-folder-open"></use></svg><span>Projetos</span></a>
+          <a href="{{ url_for('weekly_review_page') }}"><svg class="ri-icon"><use href="#ri-trending-up"></use></svg><span>Revisar</span></a>
+          <a href="{{ url_for('bad_day_page') }}"><svg class="ri-icon"><use href="#ri-leaf"></use></svg><span>Essencial</span></a>
+        </div>
+      </section>
+    </aside>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/workspace.js') }}" defer></script>{% endblock %}

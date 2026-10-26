@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="backup-layout">
+  <article class="panel">
+    <div class="panel-heading">
+      <h2>Backup e exportacao</h2>
+      <span class="pill">AppData persistente</span>
+    </div>
+
+    <div class="path-list">
+      <div>
+        <span>Banco SQLite</span>
+        <code id="database-path">Carregando...</code>
+      </div>
+      <div>
+        <span>Pasta de backups</span>
+        <code id="backups-dir">Carregando...</code>
+      </div>
+      <div>
+        <span>Pasta de exports</span>
+        <code id="exports-dir">Carregando...</code>
+      </div>
+    </div>
+    <p class="muted">Backups incluem todo o banco local, inclusive os dados do Uso do PC nivel 1.</p>
+
+    <div class="form-actions">
+      <button class="button primary" id="create-backup" type="button">Criar backup agora</button>
+      <button class="button secondary" id="open-data-dir" type="button">Abrir pasta dos dados</button>
+      <button class="button ghost" id="export-history" type="button">Exportar rotina CSV</button>
+      <button class="button ghost" id="export-health" type="button">Exportar saude CSV</button>
+      <button class="button ghost" id="export-nutrition" type="button">Exportar alimentacao CSV</button>
+      <button class="button ghost" id="export-focus" type="button">Exportar foco CSV</button>
+      <button class="button ghost" id="export-projects" type="button">Exportar projetos CSV</button>
+      <button class="button ghost" id="export-project-time" type="button">Exportar tempo por projeto CSV</button>
+      <button class="button ghost" id="export-weekly-pdf" type="button">Gerar PDF semanal</button>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="panel-heading">
+      <h2>Backup automatico</h2>
+      <span id="backup-auto-status" class="pill">Carregando</span>
+    </div>
+    <form id="backup-settings-form" class="form-grid">
+      <label class="toggle-row"><input id="backup-enabled" type="checkbox"><span>Ativar backup automatico</span></label>
+      <label>
+        <span>Frequencia</span>
+        <select id="backup-frequency">
+          <option value="daily">diario</option>
+          <option value="weekly">semanal</option>
+        </select>
+      </label>
+      <label><span>Manter ultimos</span><input id="backup-keep-last" type="number" min="1" max="100" step="1" value="10"></label>
+      <button class="button primary" type="submit">Salvar backup automatico</button>
+    </form>
+  </article>
+
+  <article class="panel">
+    <div class="panel-heading">
+      <h2>Ultimos backups</h2>
+      <button class="button secondary" id="refresh-backups" type="button">Atualizar</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table compact-table">
+        <thead>
+          <tr>
+            <th>Arquivo</th>
+            <th>Status</th>
+            <th>Tamanho</th>
+            <th>Criado em</th>
+            <th>Mensagem</th>
+          </tr>
+        </thead>
+        <tbody id="backup-body"></tbody>
+      </table>
+    </div>
+  </article>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/backup.js') }}" defer></script>
+{% endblock %}

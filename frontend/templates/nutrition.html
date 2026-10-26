@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <button id="nutrition-export" class="button secondary" type="button">Exportar CSV</button>
+{% endblock %}
+
+{% block content %}
+<section class="nutrition-layout">
+  <form id="nutrition-form" class="panel form-panel">
+    <div class="panel-heading">
+      <h2>Registro alimentar</h2>
+      <div class="nutrition-score"><span>Nota</span><strong id="nutrition-score">0</strong></div>
+    </div>
+
+    <div class="form-grid">
+      <label><span>Data</span><input id="nutrition-date" name="date" type="date" required></label>
+      <label><span>Agua (L)</span><input id="water-liters" name="water_liters" type="number" min="0" max="20" step="0.1" value="0"></label>
+      <label><span>Refeicoes</span><input id="meals-count" name="meals_count" type="number" min="0" max="12" step="1" value="0"></label>
+    </div>
+
+    <div class="activity-grid">
+      <label class="toggle-row"><input id="breakfast-done" name="breakfast_done" type="checkbox"><span>Cafe da manha</span></label>
+      <label class="toggle-row"><input id="lunch-done" name="lunch_done" type="checkbox"><span>Almoco</span></label>
+      <label class="toggle-row"><input id="dinner-done" name="dinner_done" type="checkbox"><span>Jantar</span></label>
+      <label class="toggle-row"><input id="healthy-snack-done" name="healthy_snack_done" type="checkbox"><span>Lanche saudavel</span></label>
+      <label class="toggle-row"><input id="protein-ok" name="protein_ok" type="checkbox"><span>Proteina suficiente</span></label>
+      <label class="toggle-row"><input id="fruits-vegetables-ok" name="fruits_vegetables_ok" type="checkbox"><span>Frutas e verduras</span></label>
+      <label class="toggle-row"><input id="ultra-processed-control" name="ultra_processed_control" type="checkbox"><span>Ultraprocessados controlados</span></label>
+    </div>
+
+    <label><span>Observacao alimentar</span><textarea id="nutrition-observation" name="observation" rows="4"></textarea></label>
+
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar alimentacao</button>
+      <button class="button secondary" type="button" id="nutrition-load-today">Carregar hoje</button>
+    </div>
+  </form>
+
+  <aside class="panel">
+    <div class="panel-heading"><h2>Semana</h2></div>
+    <div class="summary-strip compact-summary">
+      <article><span>Media</span><strong id="nutrition-week-score">0</strong></article>
+      <article><span>Agua</span><strong id="nutrition-week-water">0L</strong></article>
+      <article><span>Proteina</span><strong id="nutrition-week-protein">0</strong></article>
+      <article><span>3+ refeicoes</span><strong id="nutrition-week-meals">0</strong></article>
+    </div>
+    <ul id="nutrition-insights" class="insight-list"></ul>
+  </aside>
+</section>
+
+<section class="dashboard-grid">
+  <article class="panel chart-panel">
+    <div class="panel-heading"><h2>Nota alimentar</h2></div>
+    <canvas id="nutrition-score-chart"></canvas>
+  </article>
+  <article class="panel chart-panel">
+    <div class="panel-heading"><h2>Agua por dia</h2></div>
+    <canvas id="nutrition-water-chart"></canvas>
+  </article>
+</section>
+
+<section class="panel insights-panel">
+  <div class="panel-heading"><h2>Historico alimentar</h2></div>
+  <div class="table-wrap">
+    <table class="data-table compact-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Nota</th>
+          <th>Agua</th>
+          <th>Proteina</th>
+          <th>Frutas/verduras</th>
+          <th>Refeicoes</th>
+          <th>Observacao</th>
+        </tr>
+      </thead>
+      <tbody id="nutrition-history-body"></tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/nutrition.js') }}" defer></script>
+{% endblock %}

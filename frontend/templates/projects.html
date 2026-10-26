@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <button id="projects-export" class="button secondary" type="button">Exportar CSV</button>
+{% endblock %}
+
+{% block content %}
+<section class="projects-layout">
+  <form id="project-form" class="panel form-panel">
+    <div class="panel-heading">
+      <h2 id="project-form-title">Novo projeto</h2>
+      <span id="project-editing" class="pill">Criacao</span>
+    </div>
+    <input id="project-id" type="hidden">
+    <label><span>Nome</span><input id="project-name" required maxlength="120"></label>
+    <label><span>Descricao</span><textarea id="project-description" rows="3"></textarea></label>
+    <div class="form-grid">
+      <label>
+        <span>Categoria</span>
+        <select id="project-category">
+          <option>Estudos</option>
+          <option>Programacao</option>
+          <option>Trabalho</option>
+          <option>Saude</option>
+          <option>Pessoal</option>
+          <option>Outro</option>
+        </select>
+      </label>
+      <label>
+        <span>Status</span>
+        <select id="project-status">
+          <option value="ativo">ativo</option>
+          <option value="pausado">pausado</option>
+          <option value="concluido">concluido</option>
+          <option value="arquivado">arquivado</option>
+        </select>
+      </label>
+      <label><span>Cor</span><input id="project-color" type="color" value="#38b99b"></label>
+      <label><span>Meta semanal (h)</span><input id="project-weekly-goal" type="number" min="0" max="168" step="0.25" value="0"></label>
+    </div>
+    <label class="toggle-row"><input id="project-active" type="checkbox" checked><span>Ativo</span></label>
+    <div class="form-actions">
+      <button class="button primary" type="submit">Salvar projeto</button>
+      <button id="project-reset" class="button ghost" type="button">Limpar</button>
+    </div>
+  </form>
+
+  <aside class="panel">
+    <div class="panel-heading"><h2>Semana</h2></div>
+    <div class="summary-strip compact-summary">
+      <article><span>Ativos</span><strong id="project-active-count">0</strong></article>
+      <article><span>Horas</span><strong id="project-week-hours">0h</strong></article>
+      <article><span>Abaixo da meta</span><strong id="project-below-goal">0</strong></article>
+    </div>
+    <canvas id="projects-chart" class="mini-chart"></canvas>
+  </aside>
+</section>
+
+<section class="panel insights-panel">
+  <div class="panel-heading"><h2>Projetos</h2></div>
+  <div id="projects-list" class="project-grid"></div>
+</section>
+
+<section class="panel insights-panel">
+  <div class="panel-heading"><h2>Adicionar tempo</h2></div>
+  <form id="project-time-form" class="filter-bar">
+    <label><span>Projeto</span><select id="time-project"></select></label>
+    <label><span>Data</span><input id="time-date" type="date"></label>
+    <label><span>Minutos</span><input id="time-minutes" type="number" min="1" max="1440" step="5" value="25"></label>
+    <label><span>Nota</span><input id="time-note"></label>
+    <button class="button primary" type="submit">Adicionar</button>
+  </form>
+  <div id="project-time-list" class="session-list"></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/projects.js') }}" defer></script>
+{% endblock %}

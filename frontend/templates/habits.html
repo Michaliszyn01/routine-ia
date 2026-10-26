@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-intro habits-intro">
+  <h1>Hábitos <span class="leaf-mark" aria-hidden="true"></span></h1>
+  <p>Cuide da sua consistência com passos simples e visíveis.</p>
+</section>
+<section class="life-grid">
+  <form id="habit-form" class="panel form-panel">
+    <div class="panel-heading"><h2>Novo hábito</h2></div>
+    <label><span>Nome</span><input name="name" required placeholder="Inglês" value="Inglês"></label>
+    <label><span>Descrição</span><textarea name="description" rows="3"></textarea></label>
+    <div class="form-grid">
+      <label><span>Categoria</span><select name="category"><option>Estudos</option><option>Saúde</option><option>Espiritualidade</option><option>Organização</option><option>Programação</option><option>Casa</option><option>Social</option><option>Outro</option></select></label>
+      <label><span>Frequência</span><select name="frequency"><option value="diaria">diária</option><option value="semanal">semanal</option><option value="personalizada">personalizada</option></select></label>
+      <label><span>Meta por semana</span><input name="target_per_week" type="number" min="1" max="7" value="5"></label>
+      <label><span>Peso</span><input name="weight" type="number" min="1" max="20" value="5"></label>
+    </div>
+    <button class="button primary" type="submit">Salvar hábito</button>
+  </form>
+  <div class="stack">
+    <article class="panel"><div class="panel-heading"><h2>Resumo</h2></div><div id="habit-summary" class="mini-kpis"></div></article>
+    <article class="panel"><div class="panel-heading"><h2>Biblioteca</h2></div><div id="habit-list" class="card-list"></div></article>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/habits.js') }}" defer></script>{% endblock %}

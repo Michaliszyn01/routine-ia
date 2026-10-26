@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block page_actions %}
+  <a class="button secondary" href="{{ url_for('today_page') }}">Hoje</a>
+  <button id="focus-export" class="button secondary" type="button">Exportar CSV</button>
+{% endblock %}
+
+{% block content %}
+<section class="focus-execution-grid">
+  <article class="panel focus-runner">
+    <div class="panel-heading">
+      <div>
+        <h2>Modo Foco</h2>
+        <p id="focus-title" class="muted">Escolha um bloco ou comece um foco rapido.</p>
+      </div>
+      <span id="focus-state" class="pill">Pronto</span>
+    </div>
+
+    <div id="timer-display" class="timer-display">25:00</div>
+    <p id="focus-next-step" class="focus-next-step">Escolher o menor proximo passo.</p>
+
+    <div class="focus-live-grid">
+      <article><span>App atual</span><strong id="focus-current-app">-</strong></article>
+      <article><span>Status</span><strong id="focus-match-status">-</strong></article>
+      <article><span>Foco real</span><strong id="focus-focused-time">0min</strong></article>
+      <article><span>Fora do bloco</span><strong id="focus-distracted-time">0min</strong></article>
+    </div>
+
+    <div id="focus-soft-alert" class="behavior-feedback" hidden></div>
+
+    <div class="form-actions">
+      <button id="focus-pause" class="button secondary" type="button">Pausar</button>
+      <button id="focus-resume" class="button secondary" type="button">Retomar</button>
+      <button id="focus-complete" class="button primary" type="button">Concluir</button>
+      <button id="focus-abandon" class="button ghost" type="button">Abandonar</button>
+    </div>
+  </article>
+
+  <aside class="stack">
+    <article class="panel">
+      <div class="panel-heading"><h2>Foco rapido</h2></div>
+      <div class="preset-row">
+        <button class="quick-button preset active" data-duration="25" type="button">25min</button>
+        <button class="quick-button preset" data-duration="10" type="button">10min</button>
+        <button class="quick-button preset" data-duration="50" type="button">50min</button>
+      </div>
+      <div class="form-grid">
+        <label><span>Titulo</span><input id="focus-quick-title" type="text" value="Foco rapido"></label>
+        <label><span>Duracao</span><input id="focus-duration" type="number" min="1" max="720" value="25"></label>
+        <label>
+          <span>Tipo</span>
+          <select id="focus-type">
+            <option value="project">Projeto</option>
+            <option value="study">Estudo</option>
+            <option value="reading">Leitura</option>
+            <option value="organization">Organizacao</option>
+            <option value="workout">Treino</option>
+            <option value="rest">Descanso</option>
+            <option value="generic">Generico</option>
+          </select>
+        </label>
+      </div>
+      <button id="focus-start" class="button primary" type="button">Iniciar foco rapido</button>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><h2>Apps esperados</h2></div>
+      <div id="focus-expected-apps" class="tag-list"></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><h2>Resumo da sessao</h2></div>
+      <div id="focus-final-summary" class="session-list"></div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-heading"><h2>Sessoes recentes</h2></div>
+      <div id="focus-sessions" class="session-list"></div>
+    </article>
+  </aside>
+</section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/focus.js') }}" defer></script>
+{% endblock %}
